@@ -1,4 +1,5 @@
 using BlazorApp.Components;
+using BlazorApp.Services;
 
 namespace BlazorApp
 {
@@ -11,6 +12,7 @@ namespace BlazorApp
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddSingleton(typeof(IStateBox<>), typeof(StateBox<>));
 
             var app = builder.Build();
 

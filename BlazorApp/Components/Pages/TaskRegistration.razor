@@ -1,0 +1,45 @@
+@page "/registration"
+@using BlazorApp.Entites
+@using Radzen.Blazor
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IStateBox<List<TaskItem>> sessionState
+
+<PageTitle>TaskRegistration</PageTitle>
+
+<h1>タスク登録</h1>
+
+<EditForm Model="@newTask" OnValidSubmit="@AddTask">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="title" class="form-label">題名</label>
+        <InputText id="title" class="form-control" @bind-Value="newTask.Title" />
+        <ValidationMessage For="@(() => newTask.Title)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="dueDate" class="form-label">期限</label>
+        <InputDate id="dueDate" class="form-control" @bind-Value="newTask.DueDate" />
+        <ValidationMessage For="@(() => newTask.DueDate)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="status" class="form-label">状態</label>
+        <InputSelect id="status" class="form-control" @bind-Value="newTask.Status">
+            @foreach (var status in Enum.GetValues<Entites.TaskStatus>())
+            {
+                <option value="@status">@status</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label for="content" class="form-label">内容</label>
+        <InputTextArea id="content" class="form-control" @bind-Value="newTask.Content" />
+    </div>
+
+    <RadzenButton Text="登録" class="btn btn-primary" ButtonType="Radzen.ButtonType.Submit"></RadzenButton>
+    <RadzenButton Text="Cancel" class="btn btn-primary" Click="CancelTask"></RadzenButton>
+</EditForm>
